@@ -14,5 +14,6 @@ export const BUTTON_STATES = {
 
 export const PAGE = {
     MENU: 'menu',
-    GAME: 'game'
+    GAME: 'game',
+    RESULT: 'result'
 };

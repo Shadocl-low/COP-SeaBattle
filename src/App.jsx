@@ -1,7 +1,8 @@
 import styles from './App.module.css';
 import { useState } from 'react';
-import { StartPage } from './pages/MenuPage';
+import { MenuPage } from './pages/MenuPage';
 import { GamePage } from './pages/GamePage';
+import { ResultPage } from './pages/ResultPage';
 import { PAGE } from './constants.js';
 
 export default function App() {
@@ -10,11 +11,15 @@ export default function App() {
     return (
         <div className={styles.container}>
             {currentPage === PAGE.MENU && (
-                <StartPage onStart={() => setCurrentPage(PAGE.GAME)} />
+                <MenuPage onStart={() => setCurrentPage(PAGE.GAME)} />
             )}
 
             {currentPage === PAGE.GAME && (
-                <GamePage onEndGame={() => setCurrentPage('results')} />
+                <GamePage onEndGame={() => setCurrentPage(PAGE.RESULT)} />
+            )}
+
+            {currentPage === PAGE.RESULT && (
+                <ResultPage onRestart={() => setCurrentPage(PAGE.GAME)} />
             )}
         </div>
     );
