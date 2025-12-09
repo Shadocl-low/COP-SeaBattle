@@ -1,14 +1,19 @@
-import { useState } from 'react';
-import { GamePage } from './pages/GamePage';
 import styles from './App.module.css';
+import { useState } from 'react';
+import { StartPage } from './pages/MenuPage';
+import { GamePage } from './pages/GamePage';
+import { PAGE } from './constants.js';
 
 export default function App() {
-    // Стан для перемикання "сторінок" (плейсхолдер роутингу)
-    const [currentPage, setCurrentPage] = useState('game');
+    const [currentPage, setCurrentPage] = useState(PAGE.MENU);
 
     return (
         <div className={styles.container}>
-            {currentPage === 'game' && (
+            {currentPage === PAGE.MENU && (
+                <StartPage onStart={() => setCurrentPage(PAGE.GAME)} />
+            )}
+
+            {currentPage === PAGE.GAME && (
                 <GamePage onEndGame={() => setCurrentPage('results')} />
             )}
         </div>

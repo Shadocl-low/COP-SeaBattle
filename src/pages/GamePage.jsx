@@ -1,4 +1,5 @@
 import { Board } from '../components/Board/Board';
+import { Button } from "../components/UI/Button/Button";
 
 export function GamePage(props) {
     const { onEndGame } = props;
@@ -11,6 +12,10 @@ export function GamePage(props) {
             </div>
 
             <Board />
+
+            <Button variant="secondary" onClick={onEndGame}>
+                Здатися
+            </Button>
         </div>
     );
 }

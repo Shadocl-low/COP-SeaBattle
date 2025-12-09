@@ -11,3 +11,8 @@ export const BUTTON_STATES = {
     ACCEPT: 'accept',
     DECLINE: 'decline'
 };
+
+export const PAGE = {
+    MENU: 'menu',
+    GAME: 'game'
+};
