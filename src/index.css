@@ -1,14 +1,14 @@
 :root {
-  /* Кольорова палітра */
-  --primary-color: #3b82f6; /* Blue */
-  --secondary-color: #64748b; /* Slate */
-  --danger-color: #ef4444; /* Red */
-  --success-color: #22c55e; /* Green */
-  --bg-color: #b0adad;;
+  --primary-color: #3b82f6;
+  --secondary-color: #64748b;
+  --danger-color: #ef4444;
+  --success-color: #22c55e;
+  --bg-color: #b0adad;
   --text-color: #1e293b;
 
   --cell-size: 50px;
   --gap-size: 5px;
+  --radius: 8px;
 }
 
 body {
