@@ -1,0 +1,11 @@
+.board {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--gap-size);
+    padding: 10px;
+    background-color: #f8fafc;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    width: fit-content;
+    margin: 0 auto;
+}

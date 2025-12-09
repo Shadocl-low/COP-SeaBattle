@@ -1,0 +1,29 @@
+.cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    border: 2px solid #cbd5e1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: white;
+    font-size: 24px;
+}
+
+.cell:hover {
+    border-color: #3b82f6;
+}
+
+.hit {
+    background-color: #fee2e2;
+    color: #ef4444;
+}
+
+.miss {
+    background-color: #f1f5f9;
+    color: #64748b;
+}
+
+.empty {
+    background-color: #fff;
+}
