@@ -2,7 +2,7 @@ import styles from './App.module.css';
 import { useState } from 'react';
 import { MenuPage } from './pages/MenuPage';
 import { GamePage } from './pages/GamePage';
-import { ResultPage } from './pages/ResultPage';
+import { ResultPage } from './pages/ResultPage/ResultPage.jsx';
 import { PAGE } from './constants.js';
 
 export default function App() {
@@ -19,7 +19,10 @@ export default function App() {
             )}
 
             {currentPage === PAGE.RESULT && (
-                <ResultPage onRestart={() => setCurrentPage(PAGE.GAME)} />
+                <ResultPage
+                    shots={14}
+                    shipsLeft={0}
+                    onRestart={() => setCurrentPage(PAGE.MENU)} />
             )}
         </div>
     );

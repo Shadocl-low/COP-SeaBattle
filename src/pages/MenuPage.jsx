@@ -1,6 +1,8 @@
 import { Button } from '../components/UI/Button/Button';
 
-export function MenuPage({ onStart }) {
+export function MenuPage(props) {
+    const { onStart } = props;
+
     return (
         <div>
             <h1>Морський Бій</h1>
