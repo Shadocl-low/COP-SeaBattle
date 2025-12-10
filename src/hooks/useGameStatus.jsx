@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import { GAME_CONFIG, GAME_STATUS } from '../constants';
+import {useCallback, useState} from 'react';
+import {GAME_CONFIG, GAME_STATUS} from '../constants';
 
 export function useGameStatus() {
     const [shotsLeft, setShotsLeft] = useState(GAME_CONFIG.MAX_SHOTS);
@@ -8,16 +8,15 @@ export function useGameStatus() {
 
     const recordShot = useCallback(() => {
         setShotsLeft((prev) => {
-            const newVal = prev - 1;
-            return newVal;
+            return prev - 1;
         });
     }, []);
 
     const recordHit = useCallback(() => {
         setShipsLeft((prev) => {
-            const newList = prev - 1;
-            if (newList === 0) setStatus(GAME_STATUS.WON);
-            return newList;
+            const newHit = prev - 1;
+            if (newHit === 0) setStatus(GAME_STATUS.WON);
+            return newHit;
         });
     }, []);
 
