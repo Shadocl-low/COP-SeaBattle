@@ -5,8 +5,6 @@ import {useGameLogic} from "../hooks/useGameLogic.jsx";
 import {useEffect} from "react";
 
 export function GamePage(props) {
-    const { onEndGame } = props;
-
     const {
         board,
         shotsLeft,
@@ -14,6 +12,8 @@ export function GamePage(props) {
         status,
         handleCellClick
     } = useGameLogic();
+
+    const { onEndGame } = props;
 
     useEffect(() => {
         if (status !== GAME_STATUS.PLAYING) {
