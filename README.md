@@ -1,16 +1,33 @@
-# React + Vite
+# Sea Battle
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Component-oriented classic Sea Battle strategy game built with **React**.
 
-Currently, two official plugins are available:
+## About the Project
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project is a 5x5 grid strategy game where the player battles against the computer. The goal is to find and destroy all hidden enemy ships before running out of ammunition.
 
-## React Compiler
+## Game Rules
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1.  **Objective:** Destroy all **enemy ships** hidden on the 5x5 board.
+2.  **Ammunition:** You have a limited supply of **torpedoes**.
+3.  **Gameplay:**
+    * Click on a cell to fire a shot.
+    * Hit (X): You hit a ship.
+    * Miss (•): There is nothing there.
+4.  **Game Over:**
+    * Victory: All ships are destroyed.
+    * Defeat: You ran out of torpedoes before destroying all ships.
 
-## Expanding the ESLint configuration
+## Installation & Setup
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 1. Fork the Repository
+If you want to make your own changes, fork this repository:
+1.  Click the **fork** button in the top-right corner of this page.
+2.  Select your GitHub account.
+
+### 2. Clone the Repository
+Clone the project to your local machine
+
+### 3. Install Dependencies
+This project uses npm to manage dependencies:
+**npm install**
