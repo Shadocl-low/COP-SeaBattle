@@ -20,9 +20,9 @@ export const PAGE = {
 };
 
 export const DIFFICULTY_LEVELS = {
-    EASY: { label: 'Легкий', shots: 23, ships: 3 },
-    MEDIUM: { label: 'Середній', shots: 19, ships: 4 },
-    HARD: { label: 'Важкий', shots: 15, ships: 5 }
+    EASY: { label: 'Легкий', shots: 23, ships: 3, id: 'EASY' },
+    MEDIUM: { label: 'Середній', shots: 19, ships: 4, id: 'MEDIUM' },
+    HARD: { label: 'Важкий', shots: 15, ships: 5, id: 'HARD' }
 };
 
 export const DEFAULT_CONFIG = {
