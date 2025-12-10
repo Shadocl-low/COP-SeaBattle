@@ -25,7 +25,10 @@ export default function App() {
             )}
 
             {currentPage === PAGE.GAME && (
-                <GamePage onEndGame={handleGameEnd} />
+                <GamePage
+                    onEndGame={handleGameEnd}
+                    onBackToMenu={() => setCurrentPage(PAGE.MENU)}
+                />
             )}
 
             {currentPage === PAGE.RESULT && (

@@ -13,7 +13,7 @@ export function ResultPage(props) {
         <div className={styles.container}>
 
             <h2 className={titleClass}>
-                {isWin ? 'Перемога!' : 'Поразка'}
+                {isWin ? 'Перемога' : 'Поразка'}
             </h2>
 
             <div className={styles.statsContainer}>

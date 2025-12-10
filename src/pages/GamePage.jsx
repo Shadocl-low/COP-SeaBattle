@@ -2,7 +2,8 @@ import { Board } from '../components/Board/Board';
 import { Button } from "../components/UI/Button/Button";
 import {BUTTON_STATES, GAME_CONFIG, GAME_STATUS} from "../constants.js";
 import {useGameLogic} from "../hooks/useGameLogic.jsx";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import { Modal } from "../components/Modal/Modal";
 
 export function GamePage(props) {
     const {
@@ -10,24 +11,28 @@ export function GamePage(props) {
         shotsLeft,
         shipsLeft,
         status,
-        handleCellClick
+        handleCellClick,
+        restartGame
     } = useGameLogic();
 
-    const { onEndGame } = props;
+    const [showResetConfirm, setShowResetConfirm] = useState(false);
 
-    useEffect(() => {
-        if (status !== GAME_STATUS.PLAYING) {
-            const timer = setTimeout(() => {
-                onEndGame({
-                    shots: GAME_CONFIG.MAX_SHOTS - shotsLeft,
-                    shipsLeft: shipsLeft,
-                    status: status
-                });
-            }, 1000);
+    const { onEndGame, onBackToMenu } = props;
+    const isGameOver = status !== GAME_STATUS.PLAYING;
+    const isWin = status === GAME_STATUS.WON;
 
-            return () => clearTimeout(timer);
-        }
-    }, [status, onEndGame, shotsLeft, shipsLeft]);
+    const handleResetRequest = () => {
+        setShowResetConfirm(true);
+    };
+
+    const handleConfirmReset = () => {
+        restartGame();
+        setShowResetConfirm(false);
+    };
+
+    const handleCancelReset = () => {
+        setShowResetConfirm(false);
+    };
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
@@ -38,9 +43,56 @@ export function GamePage(props) {
 
             <Board cells={board} onCellClick={handleCellClick} />
 
-            <Button variant={BUTTON_STATES.DECLINE} onClick={() => onEndGame({ shots: 0, shipsLeft: 3, status: GAME_STATUS.LOST })}>
-                Здатися
+            <Button variant={BUTTON_STATES.DECLINE} onClick={() => handleResetRequest()}>
+                Скинути
             </Button>
+
+            <Button variant={BUTTON_STATES.PRIMARY} onClick={() => onBackToMenu()}>
+                Меню
+            </Button>
+
+            <Modal open={showResetConfirm}>
+                <h3>Скидання гри</h3>
+                <p>Ви дійсно бажаєте скинути поточний прогрес? Це неможливо скасувати.</p>
+
+                <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                    <Button onClick={handleConfirmReset} variant={BUTTON_STATES.DECLINE}>
+                        Так
+                    </Button>
+                    <Button onClick={handleCancelReset} variant={BUTTON_STATES.ACCEPT}>
+                        Ні
+                    </Button>
+                </div>
+            </Modal>
+
+            <Modal open={isGameOver && !showResetConfirm}>
+                <h2 style={{ color: isWin ? 'var(--success-color)' : 'var(--danger-color)' }}>
+                    {isWin ? 'Перемога!' : 'Поразка'}
+                </h2>
+
+                <p>
+                    {isWin
+                        ? 'Ви знищили ворожий флот!'
+                        : 'У вас закінчились торпеди.'}
+                </p>
+
+                <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                    <Button onClick={() =>
+                            onEndGame({
+                                shots: GAME_CONFIG.MAX_SHOTS - shotsLeft,
+                                shipsLeft: shipsLeft,
+                                status: status
+                            })} variant={BUTTON_STATES.PRIMARY}>
+                        Статистика
+                    </Button>
+
+                    <Button onClick={restartGame} variant={BUTTON_STATES.SECONDARY}>
+                        {isWin ? 'Повторити' : 'Спробувати ще'}
+                    </Button>
+
+
+                </div>
+            </Modal>
         </div>
     );
 }
