@@ -33,6 +33,7 @@ export default function App() {
                     shots={gameResult.shots}
                     shipsLeft={gameResult.shipsLeft}
                     onRestart={() => setCurrentPage(PAGE.GAME)}
+                    status={gameResult.status}
                 />
             )}
         </div>
