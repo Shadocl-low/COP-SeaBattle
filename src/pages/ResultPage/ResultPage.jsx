@@ -1,11 +1,11 @@
 import { Button } from "../../components/UI/Button/Button";
 import styles from './ResultPage.module.css';
-import {BUTTON_STATES} from "../../constants.js";
+import {BUTTON_STATES, GAME_STATUS} from "../../constants.js";
 
 export function ResultPage(props) {
-    const { onRestart, shots = 0, shipsLeft = 0 } = props;
+    const { onRestart, shots = 0, shipsLeft = 0, status } = props;
 
-    const isWin = shipsLeft === 0;
+    const isWin = status === GAME_STATUS.WON;
 
     const titleClass = `${styles.title} ${isWin ? styles.win : styles.lose}`;
 
