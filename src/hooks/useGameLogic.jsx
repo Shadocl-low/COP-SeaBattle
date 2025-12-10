@@ -1,10 +1,10 @@
 import { useEffect, useCallback } from 'react';
 import { useBoard } from './useBoard';
 import { useGameStatus } from './useGameStatus';
-import { CELL_STATE, GAME_STATUS } from '../constants';
+import { CELL_STATE, GAME_STATUS, DEFAULT_CONFIG } from '../constants';
 
-export function useGameLogic() {
-    const { board, updateCell, resetBoard } = useBoard();
+export function useGameLogic(settings = DEFAULT_CONFIG) {
+    const { board, updateCell, resetBoard } = useBoard(settings);
 
     const {
         shotsLeft,
@@ -14,7 +14,7 @@ export function useGameLogic() {
         recordShot,
         recordHit,
         resetStatus
-    } = useGameStatus();
+    } = useGameStatus(settings);
 
     useEffect(() => {
         if (shotsLeft === 0 && shipsLeft > 0 && status === GAME_STATUS.PLAYING) {

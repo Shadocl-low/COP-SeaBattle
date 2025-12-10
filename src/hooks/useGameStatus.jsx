@@ -1,9 +1,9 @@
 import {useCallback, useState} from 'react';
-import {GAME_CONFIG, GAME_STATUS} from '../constants';
+import {GAME_STATUS} from '../constants';
 
-export function useGameStatus() {
-    const [shotsLeft, setShotsLeft] = useState(GAME_CONFIG.MAX_SHOTS);
-    const [shipsLeft, setShipsLeft] = useState(GAME_CONFIG.TOTAL_SHIPS);
+export function useGameStatus(config) {
+    const [shotsLeft, setShotsLeft] = useState(config.shots);
+    const [shipsLeft, setShipsLeft] = useState(config.ships);
     const [status, setStatus] = useState(GAME_STATUS.PLAYING);
 
     const recordShot = useCallback(() => {
@@ -21,10 +21,10 @@ export function useGameStatus() {
     }, []);
 
     const resetStatus = useCallback(() => {
-        setShotsLeft(GAME_CONFIG.MAX_SHOTS);
-        setShipsLeft(GAME_CONFIG.TOTAL_SHIPS);
+        setShotsLeft(config.shots);
+        setShipsLeft(config.ships);
         setStatus(GAME_STATUS.PLAYING);
-    }, []);
+    }, [config.shots, config.ships]);
 
     return {
         shotsLeft,
