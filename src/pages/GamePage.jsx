@@ -1,11 +1,12 @@
 import { Board } from '../components/Board/Board';
 import { Button } from "../components/UI/Button/Button";
-import {BUTTON_STATES, GAME_CONFIG, GAME_STATUS} from "../constants.js";
+import {BUTTON_STATES, GAME_STATUS} from "../constants.js";
 import {useGameLogic} from "../hooks/useGameLogic.jsx";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import { Modal } from "../components/Modal/Modal";
 
 export function GamePage(props) {
+    const { onEndGame, onBackToMenu, settings } = props;
     const {
         board,
         shotsLeft,
@@ -13,11 +14,10 @@ export function GamePage(props) {
         status,
         handleCellClick,
         restartGame
-    } = useGameLogic();
+    } = useGameLogic(settings);
 
     const [showResetConfirm, setShowResetConfirm] = useState(false);
 
-    const { onEndGame, onBackToMenu } = props;
     const isGameOver = status !== GAME_STATUS.PLAYING;
     const isWin = status === GAME_STATUS.WON;
 
@@ -79,7 +79,7 @@ export function GamePage(props) {
                 <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
                     <Button onClick={() =>
                             onEndGame({
-                                shots: GAME_CONFIG.MAX_SHOTS - shotsLeft,
+                                shots: settings.shots - shotsLeft,
                                 shipsLeft: shipsLeft,
                                 status: status
                             })} variant={BUTTON_STATES.PRIMARY}>
@@ -89,7 +89,6 @@ export function GamePage(props) {
                     <Button onClick={restartGame} variant={BUTTON_STATES.SECONDARY}>
                         {isWin ? 'Повторити' : 'Спробувати ще'}
                     </Button>
-
 
                 </div>
             </Modal>

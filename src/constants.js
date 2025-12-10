@@ -15,17 +15,23 @@ export const BUTTON_STATES = {
 export const PAGE = {
     MENU: 'menu',
     GAME: 'game',
-    RESULT: 'result'
+    RESULT: 'result',
+    SETTINGS: 'settings'
 };
 
-export const GAME_CONFIG = {
+export const DIFFICULTY_LEVELS = {
+    EASY: { label: 'Легкий', shots: 23, ships: 3 },
+    MEDIUM: { label: 'Середній', shots: 19, ships: 4 },
+    HARD: { label: 'Важкий', shots: 15, ships: 5 }
+};
+
+export const DEFAULT_CONFIG = {
     BOARD_SIZE: 25,
-    TOTAL_SHIPS: 3,
-    MAX_SHOTS: 20,
+    DIFFICULTY: 'EASY'
 };
 
 export const GAME_STATUS = {
     PLAYING: 'playing',
     WON: 'won',
-    LOST: 'lost',
+    LOST: 'lost'
 };
