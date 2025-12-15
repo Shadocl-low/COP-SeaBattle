@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {GAME_STATUS} from '../constants';
 
 export function useGameStatus(config) {
@@ -8,9 +8,13 @@ export function useGameStatus(config) {
 
     const recordShot = useCallback(() => {
         setShotsLeft((prev) => {
-            return prev - 1;
+            const newShots = prev - 1;
+            if (newShots === 0 && shipsLeft > 0) {
+                setStatus(GAME_STATUS.LOST);
+            }
+            return newShots;
         });
-    }, []);
+    }, [shipsLeft]);
 
     const recordHit = useCallback(() => {
         setShipsLeft((prev) => {
@@ -30,7 +34,6 @@ export function useGameStatus(config) {
         shotsLeft,
         shipsLeft,
         status,
-        setStatus,
         recordShot,
         recordHit,
         resetStatus

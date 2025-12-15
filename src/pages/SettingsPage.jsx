@@ -6,7 +6,7 @@ import {BUTTON_STATES, DIFFICULTY_LEVELS} from '../constants';
 
 const schema = yup.object({
     difficulty: yup.string().required('Будь ласка, оберіть складність'),
-    playerName: yup.string().min(2, 'Ім\'я має бути довше 2 символів').required('Ім\'я обов\'язкове'),
+    playerName: yup.string().min(5, 'Ім\'я має бути довше 2 символів').required('Ім\'я обов\'язкове'),
 }).required();
 
 export function SettingsPage({ currentSettings, onSave, onBack }) {

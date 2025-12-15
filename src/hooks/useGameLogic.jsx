@@ -10,17 +10,10 @@ export function useGameLogic(settings = DEFAULT_CONFIG) {
         shotsLeft,
         shipsLeft,
         status,
-        setStatus,
         recordShot,
         recordHit,
         resetStatus
     } = useGameStatus(settings);
-
-    useEffect(() => {
-        if (shotsLeft === 0 && shipsLeft > 0 && status === GAME_STATUS.PLAYING) {
-            setStatus(GAME_STATUS.LOST);
-        }
-    }, [shotsLeft, shipsLeft, status, setStatus]);
 
     const handleCellClick = useCallback((id) => {
         if (status !== GAME_STATUS.PLAYING) return;
