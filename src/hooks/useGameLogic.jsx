@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useBoard } from './useBoard';
 import { useGameStatus } from './useGameStatus';
 import { CELL_STATE, GAME_STATUS, DEFAULT_CONFIG } from '../constants';
@@ -10,17 +10,10 @@ export function useGameLogic(settings = DEFAULT_CONFIG) {
         shotsLeft,
         shipsLeft,
         status,
-        setStatus,
         recordShot,
         recordHit,
         resetStatus
     } = useGameStatus(settings);
-
-    useEffect(() => {
-        if (shotsLeft === 0 && shipsLeft > 0 && status === GAME_STATUS.PLAYING) {
-            setStatus(GAME_STATUS.LOST);
-        }
-    }, [shotsLeft, shipsLeft, status, setStatus]);
 
     const handleCellClick = useCallback((id) => {
         if (status !== GAME_STATUS.PLAYING) return;
