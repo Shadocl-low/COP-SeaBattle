@@ -12,17 +12,17 @@ export function Modal(props) {
     if (!modalRootEl || !isOpen) return null;
 
     return createPortal(
-            <div className={styles.overlay}>
-                <div className={styles.content}>
-                    {title && <h3>{title}</h3>}
-                    {message && <p>{message}</p>}
-                    {children}
-                    <div style={{
-                        display: 'flex',
-                        gap: '12px',
-                        justifyContent: 'center',
-                        flexWrap: 'wrap'
-                    }}>
+        <div className={styles.overlay}>
+            <div className={styles.content}>
+
+                {title && <h3 className={styles.title}>{title}</h3>}
+
+                {message && <p className={styles.message}>{message}</p>}
+
+                {children}
+
+                {actions.length > 0 && (
+                    <div className={styles.actions}>
                         {actions.map((action, index) => (
                             <Button
                                 key={index}
@@ -35,8 +35,9 @@ export function Modal(props) {
                             </Button>
                         ))}
                     </div>
-                </div>
-            </div>,
+                )}
+            </div>
+        </div>,
             modalRootEl
         );
 }

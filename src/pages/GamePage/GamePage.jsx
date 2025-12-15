@@ -65,18 +65,18 @@ export function GamePage() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.statsBar}>
-                <div className={styles.statItem}>
-                    <span className={styles.statLabel}>Гравець</span>
-                    <span className={styles.statValue}>{userId}</span>
+            <div className={styles.hud}>
+                <div className={styles.statGroup}>
+                    <span className={styles.label}>Гравець</span>
+                    <span className={styles.value} style={{ color: 'white' }}>{userId}</span>
                 </div>
-                <div className={styles.statItem}>
-                    <span className={styles.statLabel}>Пострілів</span>
-                    <span className={styles.statValue}>{shotsLeft}</span>
+                <div className={styles.statGroup}>
+                    <span className={styles.label}>Торпеди</span>
+                    <span className={styles.value}>{shotsLeft}</span>
                 </div>
-                <div className={styles.statItem}>
-                    <span className={styles.statLabel}>Кораблів</span>
-                    <span className={styles.statValue}>{shipsLeft}</span>
+                <div className={styles.statGroup}>
+                    <span className={styles.label}>Цілі</span>
+                    <span className={styles.value} style={{ color: '#f472b6' }}>{shipsLeft}</span>
                 </div>
             </div>
 
@@ -84,9 +84,9 @@ export function GamePage() {
 
             <div className={styles.controls}>
                 <Button variant={BUTTON_STATES.DECLINE} onClick={resetModal.open}>
-                    Скинути
+                    Перезапуск
                 </Button>
-                <Button variant={BUTTON_STATES.PRIMARY} onClick={() => navigate('/')}>
+                <Button variant={BUTTON_STATES.SECONDARY} onClick={() => navigate('/')}>
                     Меню
                 </Button>
             </div>

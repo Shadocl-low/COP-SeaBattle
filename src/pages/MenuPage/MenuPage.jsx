@@ -21,15 +21,23 @@ export function MenuPage() {
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>Морський Бій</h1>
-            <p className={styles.description}>Знищи кораблі супротивника на полі 5x5</p>
-            <p className={styles.greeting}>Гравець {appSettings.playerName}</p>
-            <div className={styles.actions}>
+            <div style={{textAlign: 'center'}}>
+                <h1 className={styles.title}>BATTLESHIP</h1>
+                <p className={styles.description}>
+                    Тактична морська стратегія. <br/>
+                    Знищи флот супротивника.
+                </p>
+                <div className={styles.greeting}>
+                    Капітан: <strong>{appSettings.playerName}</strong>
+                </div>
+            </div>
+
+            <div className={styles.menuActions}>
                 <Button onClick={handleStart} variant={BUTTON_STATES.PRIMARY}>
-                    Почати гру
+                    В БІЙ
                 </Button>
                 <Button onClick={handleSettings} variant={BUTTON_STATES.SECONDARY}>
-                    Налаштування
+                    НАЛАШТУВАННЯ
                 </Button>
             </div>
         </div>

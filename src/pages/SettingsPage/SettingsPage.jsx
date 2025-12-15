@@ -34,38 +34,35 @@ export function SettingsPage() {
     };
 
     return (
-        <div className={styles.container}>
-            <h2 className={styles.title}>Налаштування</h2>
+        <div className={styles.card}>
+            <h2 className={styles.title}>Конфігурація</h2>
 
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 
-                <div className={styles.fieldGroup}>
-                    <label className={styles.label}>Ім'я гравця</label>
-                    <input
-                        {...register("playerName")}
-                        className={styles.input}
-                    />
+                <div className={styles.inputGroup}>
+                    <label className={styles.label}>Позивний (Ім'я)</label>
+                    <input {...register("playerName")} className={styles.input} />
                     <p className={styles.error}>{errors.playerName?.message}</p>
                 </div>
 
-                <div className={styles.fieldGroup}>
-                    <label className={styles.label}>Складність</label>
-                    <select
-                        {...register("difficulty")}
-                        className={styles.select}
-                    >
+                <div className={styles.inputGroup}>
+                    <label className={styles.label}>Рівень загрози</label>
+                    <select {...register("difficulty")} className={styles.input}>
                         {Object.values(DIFFICULTY_LEVELS).map((level) => (
                             <option key={level.id} value={level.id}>
-                                {level.label} (Пострілів: {level.shots}, Кораблів: {level.ships})
+                                {level.label} (Пострілів: {level.shots})
                             </option>
                         ))}
                     </select>
-                    <p className={styles.error}>{errors.difficulty?.message}</p>
                 </div>
 
                 <div className={styles.actions}>
-                    <Button type="button" variant={BUTTON_STATES.SECONDARY} onClick={() => navigate('/')}>Назад</Button>
-                    <Button type="submit" variant={BUTTON_STATES.ACCEPT}>Зберегти</Button>
+                    <Button type="button" variant={BUTTON_STATES.SECONDARY} onClick={() => navigate('/')}>
+                        Скасувати
+                    </Button>
+                    <Button type="submit" variant={BUTTON_STATES.ACCEPT}>
+                        Зберегти
+                    </Button>
                 </div>
             </form>
         </div>
