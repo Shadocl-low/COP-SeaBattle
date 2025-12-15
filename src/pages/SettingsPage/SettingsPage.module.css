@@ -1,0 +1,57 @@
+.container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.title {
+    margin-bottom: 2rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.fieldGroup {
+    text-align: left;
+}
+
+.label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-muted, #888);
+    font-size: 0.9rem;
+}
+
+.input, .select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #475569;
+    background: #0f172a;
+    color: white;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.input:focus, .select:focus {
+    outline: none;
+    border-color: #646cff;
+}
+
+.error {
+    color: var(--danger-color, #ff4d4d);
+    font-size: 0.8rem;
+    margin: 5px 0 0;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 20px;
+}

@@ -1,8 +1,7 @@
-import styles from './App.module.css';
-import { MenuPage } from './pages/MenuPage';
-import { GamePage } from './pages/GamePage';
+import { MenuPage } from './pages/MenuPage/MenuPage.jsx';
+import { GamePage } from './pages/GamePage/GamePage.jsx';
 import { ResultPage } from './pages/ResultPage/ResultPage.jsx';
-import {SettingsPage} from "./pages/SettingsPage.jsx";
+import {SettingsPage} from "./pages/SettingsPage/SettingsPage.jsx";
 import {createBrowserRouter, Navigate, RouterProvider} from "react-router";
 import {Template} from "./pages/Template/Template.jsx";
 
@@ -37,8 +36,6 @@ const router = createBrowserRouter([
 
 export default function App() {
     return (
-        <div className={styles.container}>
-            <RouterProvider router={router} />
-        </div>
+        <RouterProvider router={router} />
     );
 }

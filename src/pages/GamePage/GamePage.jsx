@@ -1,20 +1,20 @@
-import { Board } from '../components/Board/Board';
-import { Button } from "../components/UI/Button/Button";
+import { Board } from '../../components/Board/Board.jsx';
+import { Button } from "../../components/UI/Button/Button.jsx";
 import {
     BUTTON_STATES,
     DEFAULT_CONFIG,
     DIFFICULTY_LEVELS,
     END_GAME_MODAL_TEXT,
-    GAME_STATUS,
-    PAGE
-} from "../constants.js";
-import {useGameLogic} from "../hooks/useGameLogic.jsx";
+    GAME_STATUS
+} from "../../constants.js";
+import {useGameLogic} from "../../hooks/useGameLogic.jsx";
 import {useEffect} from "react";
-import { Modal } from "../components/Modals/Modal";
-import {useModal} from "../hooks/useModal.jsx";
-import {ConfirmationModal} from "../components/Modals/ConfirmationModal.jsx";
+import { Modal } from "../../components/Modals/Modal.jsx";
+import {useModal} from "../../hooks/useModal.jsx";
+import {ConfirmationModal} from "../../components/Modals/ConfirmationModal.jsx";
 import {useNavigate, useParams} from "react-router";
-import {useLocalStorage} from "../hooks/useLocalStorage.jsx";
+import {useLocalStorage} from "../../hooks/useLocalStorage.jsx";
+import styles from './GamePage.module.css';
 
 export function GamePage() {
     const { userId } = useParams();
@@ -64,22 +64,32 @@ export function GamePage() {
     };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: '300px' }}>
-                <span>Гравець: {userId}</span>
-                <span>Пострілів: {shotsLeft}</span>
-                <span>Кораблів: {shipsLeft}</span>
+        <div className={styles.container}>
+            <div className={styles.statsBar}>
+                <div className={styles.statItem}>
+                    <span className={styles.statLabel}>Гравець</span>
+                    <span className={styles.statValue}>{userId}</span>
+                </div>
+                <div className={styles.statItem}>
+                    <span className={styles.statLabel}>Пострілів</span>
+                    <span className={styles.statValue}>{shotsLeft}</span>
+                </div>
+                <div className={styles.statItem}>
+                    <span className={styles.statLabel}>Кораблів</span>
+                    <span className={styles.statValue}>{shipsLeft}</span>
+                </div>
             </div>
 
             <Board cells={board} onCellClick={handleCellClick} />
 
-            <Button variant={BUTTON_STATES.DECLINE} onClick={resetModal.open}>
-                Скинути
-            </Button>
-
-            <Button variant={BUTTON_STATES.PRIMARY} onClick={() => navigate('/')}>
-                Меню
-            </Button>
+            <div className={styles.controls}>
+                <Button variant={BUTTON_STATES.DECLINE} onClick={resetModal.open}>
+                    Скинути
+                </Button>
+                <Button variant={BUTTON_STATES.PRIMARY} onClick={() => navigate('/')}>
+                    Меню
+                </Button>
+            </div>
 
             <ConfirmationModal
                 isOpen={resetModal.isOpen}

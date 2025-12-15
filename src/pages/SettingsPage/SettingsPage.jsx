@@ -1,10 +1,11 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Button } from '../components/UI/Button/Button';
-import {BUTTON_STATES, DEFAULT_CONFIG, DIFFICULTY_LEVELS} from '../constants';
+import { Button } from '../../components/UI/Button/Button.jsx';
+import {BUTTON_STATES, DEFAULT_CONFIG, DIFFICULTY_LEVELS} from '../../constants.js';
 import {useNavigate} from "react-router";
-import {useLocalStorage} from "../hooks/useLocalStorage.jsx";
+import {useLocalStorage} from "../../hooks/useLocalStorage.jsx";
+import styles from './SettingsPage.module.css';
 
 const schema = yup.object({
     difficulty: yup.string().required('Будь ласка, оберіть складність'),
@@ -33,39 +34,25 @@ export function SettingsPage() {
     };
 
     return (
-        <div>
-            <h2>Налаштування</h2>
+        <div className={styles.container}>
+            <h2 className={styles.title}>Налаштування</h2>
 
-            <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%' }}>
+            <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 
-                <div style={{ textAlign: 'left' }}>
-                    <label style={{ display: 'block', marginBottom: '5px', color: 'var(--text-muted)' }}>Ім'я гравця</label>
+                <div className={styles.fieldGroup}>
+                    <label className={styles.label}>Ім'я гравця</label>
                     <input
                         {...register("playerName")}
-                        style={{
-                            width: '100%',
-                            padding: '10px',
-                            borderRadius: '8px',
-                            border: '1px solid #475569',
-                            background: '#0f172a',
-                            color: 'white'
-                        }}
+                        className={styles.input}
                     />
-                    <p style={{ color: 'var(--danger-color)', fontSize: '0.8rem', margin: '5px 0 0' }}>{errors.playerName?.message}</p>
+                    <p className={styles.error}>{errors.playerName?.message}</p>
                 </div>
 
-                <div style={{ textAlign: 'left' }}>
-                    <label style={{ display: 'block', marginBottom: '5px', color: 'var(--text-muted)' }}>Складність</label>
+                <div className={styles.fieldGroup}>
+                    <label className={styles.label}>Складність</label>
                     <select
                         {...register("difficulty")}
-                        style={{
-                            width: '100%',
-                            padding: '10px',
-                            borderRadius: '8px',
-                            border: '1px solid #475569',
-                            background: '#0f172a',
-                            color: 'white'
-                        }}
+                        className={styles.select}
                     >
                         {Object.values(DIFFICULTY_LEVELS).map((level) => (
                             <option key={level.id} value={level.id}>
@@ -73,10 +60,10 @@ export function SettingsPage() {
                             </option>
                         ))}
                     </select>
-                    <p style={{ color: 'var(--danger-color)', fontSize: '0.8rem', margin: '5px 0 0' }}>{errors.difficulty?.message}</p>
+                    <p className={styles.error}>{errors.difficulty?.message}</p>
                 </div>
 
-                <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                <div className={styles.actions}>
                     <Button type="button" variant={BUTTON_STATES.SECONDARY} onClick={() => navigate('/')}>Назад</Button>
                     <Button type="submit" variant={BUTTON_STATES.ACCEPT}>Зберегти</Button>
                 </div>

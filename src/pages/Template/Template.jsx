@@ -3,7 +3,7 @@ import {Outlet} from "react-router";
 
 export function Template() {
     return (
-        <div className={styles.container}>
+        <div className={styles.layout}>
             <Outlet />
         </div>
     );
