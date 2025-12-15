@@ -5,14 +5,14 @@ import {Button} from "../UI/Button/Button.jsx";
 const modalRootEl = document.querySelector('#modal');
 
 export function Modal(props) {
-    const { isOpen, onClose, children, title, message, actions = [] } = props;
+    const { isOpen, children, title, message, actions = [] } = props;
 
     console.log(`[Modal Component] Rendered with isOpen: ${isOpen}, Title: ${title}`);
 
-    if (!modalRootEl && !isOpen) return null;
+    if (!modalRootEl || !isOpen) return null;
 
     return createPortal(
-            <div className={styles.overlay} onClick={onClose}>
+            <div className={styles.overlay}>
                 <div className={styles.content}>
                     {title && <h3>{title}</h3>}
                     {message && <p>{message}</p>}

@@ -7,6 +7,21 @@ import { Modal } from "../components/Modals/Modal";
 import {useModal} from "../hooks/useModal.jsx";
 import {ConfirmationModal} from "../components/Modals/ConfirmationModal.jsx";
 
+const END_GAME_MODAL_TEXT = {
+    [GAME_STATUS.WON]: {
+        title: 'Перемога!',
+        message: 'Ви знищили ворожий флот!'
+    },
+    [GAME_STATUS.LOST]: {
+        title: 'Поразка',
+        message: 'У вас закінчились торпеди.'
+    },
+    [GAME_STATUS.PLAYING]: {
+        title: 'Гра триває',
+        message: 'Не здавайтесь.'
+    }
+}
+
 export function GamePage(props) {
     const resetModal = useModal();
     const endGameModal = useModal();
@@ -22,14 +37,13 @@ export function GamePage(props) {
     } = useGameLogic(settings);
 
     useEffect(() => {
-        console.log(`[GamePage Effect] Status: ${status}`);
-
         if (status !== GAME_STATUS.PLAYING) {
             endGameModal.open();
         }
+        else {
+            endGameModal.close();
+        }
     }, [endGameModal, status]);
-
-    const isWin = status === GAME_STATUS.WON;
 
     const handleConfirmReset = () => {
         restartGame();
@@ -63,9 +77,8 @@ export function GamePage(props) {
 
             <Modal
                 isOpen={endGameModal.isOpen}
-                onClose={endGameModal.close}
-                title={isWin ? 'Перемога!' : 'Поразка'}
-                message={isWin ? 'Ви знищили ворожий флот!' : 'У вас закінчились торпеди.'}
+                title={END_GAME_MODAL_TEXT[status].title}
+                message={END_GAME_MODAL_TEXT[status].message}
                 actions={
                     [
                         {
@@ -78,11 +91,10 @@ export function GamePage(props) {
                             })
                         },
                         {
-                            label: isWin ? 'Повторити' : 'Спробувати ще',
+                            label: 'Повторити',
                             variant: BUTTON_STATES.SECONDARY,
                             handler: () => {
                                 restartGame();
-                                endGameModal.close();
                             }
                         }
                     ]
