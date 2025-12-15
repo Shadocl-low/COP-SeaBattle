@@ -2,24 +2,34 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Button } from '../components/UI/Button/Button';
-import {BUTTON_STATES, DIFFICULTY_LEVELS} from '../constants';
+import {BUTTON_STATES, DEFAULT_CONFIG, DIFFICULTY_LEVELS} from '../constants';
+import {useNavigate} from "react-router";
+import {useLocalStorage} from "../hooks/useLocalStorage.jsx";
 
 const schema = yup.object({
     difficulty: yup.string().required('Будь ласка, оберіть складність'),
     playerName: yup.string().min(5, 'Ім\'я має бути довше 2 символів').required('Ім\'я обов\'язкове'),
 }).required();
 
-export function SettingsPage({ currentSettings, onSave, onBack }) {
+export function SettingsPage() {
+    const navigate = useNavigate();
+
+    const [currentSettings, setAppSettings] = useLocalStorage('battleship-settings', {
+        difficulty: DEFAULT_CONFIG.DIFFICULTY,
+        playerName: 'Player'
+    });
+
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
             difficulty: currentSettings.difficulty,
-            playerName: currentSettings.playerName || 'Player',
+            playerName: currentSettings.playerName,
         }
     });
 
     const onSubmit = (data) => {
-        onSave(data);
+        setAppSettings(prev => ({ ...prev, ...data }));
+        navigate('/');
     };
 
     return (
@@ -67,7 +77,7 @@ export function SettingsPage({ currentSettings, onSave, onBack }) {
                 </div>
 
                 <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-                    <Button type="button" variant={BUTTON_STATES.SECONDARY} onClick={onBack}>Назад</Button>
+                    <Button type="button" variant={BUTTON_STATES.SECONDARY} onClick={() => navigate('/')}>Назад</Button>
                     <Button type="submit" variant={BUTTON_STATES.ACCEPT}>Зберегти</Button>
                 </div>
             </form>
