@@ -1,18 +1,31 @@
 .button {
-    padding: 12px 28px;
-    border: none;
-    border-radius: var(--radius);
-    cursor: pointer;
-    font-size: 16px;
+    position: relative;
+    padding: 12px 24px;
+    font-size: 1rem;
     font-weight: 600;
-    transition: all 0.2s ease;
+    letter-spacing: 0.5px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    text-transform: uppercase;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    margin: 5px;
+}
 
-    user-select: none;
+.button::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: translateX(-100%);
+    transition: 0.5s;
+}
+
+.button:hover::before {
+    transform: translateX(100%);
 }
 
 .button:active {
@@ -20,52 +33,43 @@
 }
 
 .primary {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), #3b82f6);
     color: #fff;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 4px 15px var(--primary-glow);
 }
+
 .primary:hover {
-    background-color: var(--primary-hover);
-    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 6px 20px var(--primary-glow);
+    filter: brightness(1.1);
 }
 
 .secondary {
-    background-color: var(--surface-color);
-    color: var(--text-color);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--surface-border);
+    color: var(--text-muted);
+    backdrop-filter: blur(4px);
 }
+
 .secondary:hover {
-    background-color: var(--secondary-color);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
     border-color: rgba(255, 255, 255, 0.2);
 }
 
-.accept {
-    background-color: rgba(34, 197, 94, 0.2);
-    color: var(--success-color);
-    border: 1px solid var(--success-color);
-}
-.accept:hover {
-    background-color: var(--success-color);
-    color: #0f172a;
-    box-shadow: 0 0 12px rgba(74, 222, 128, 0.4);
-}
-
 .decline {
-    background-color: rgba(248, 113, 113, 0.1);
-    color: var(--danger-color);
-    border: 1px solid var(--danger-color);
-}
-.decline:hover {
-    background-color: var(--danger-color);
-    color: #fff;
-    box-shadow: 0 0 12px rgba(248, 113, 113, 0.4);
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
 }
 
-.button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--text-muted);
-    box-shadow: none;
-    border: none;
+.decline:hover {
+    background: rgba(239, 68, 68, 0.2);
+    box-shadow: 0 4px 15px var(--danger-glow);
+    color: #fff;
+}
+
+.accept {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
 }
