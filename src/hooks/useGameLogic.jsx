@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useBoard } from './useBoard';
 import { useGameStatus } from './useGameStatus';
 import { CELL_STATE, GAME_STATUS, DEFAULT_CONFIG } from '../constants';

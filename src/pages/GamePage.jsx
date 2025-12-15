@@ -1,11 +1,16 @@
 import { Board } from '../components/Board/Board';
 import { Button } from "../components/UI/Button/Button";
-import {BUTTON_STATES, GAME_STATUS} from "../constants.js";
+import {BUTTON_STATES, GAME_STATUS, PAGE} from "../constants.js";
 import {useGameLogic} from "../hooks/useGameLogic.jsx";
-import {useState} from "react";
-import { Modal } from "../components/Modal/Modal";
+import {useEffect} from "react";
+import { Modal } from "../components/Modals/Modal";
+import {useModal} from "../hooks/useModal.jsx";
+import {ConfirmationModal} from "../components/Modals/ConfirmationModal.jsx";
 
 export function GamePage(props) {
+    const resetModal = useModal();
+    const endGameModal = useModal();
+
     const { onEndGame, onBackToMenu, settings } = props;
     const {
         board,
@@ -16,22 +21,19 @@ export function GamePage(props) {
         restartGame
     } = useGameLogic(settings);
 
-    const [showResetConfirm, setShowResetConfirm] = useState(false);
+    useEffect(() => {
+        console.log(`[GamePage Effect] Status: ${status}`);
 
-    const isGameOver = status !== GAME_STATUS.PLAYING;
+        if (status !== GAME_STATUS.PLAYING) {
+            endGameModal.open();
+        }
+    }, [endGameModal, status]);
+
     const isWin = status === GAME_STATUS.WON;
-
-    const handleResetRequest = () => {
-        setShowResetConfirm(true);
-    };
 
     const handleConfirmReset = () => {
         restartGame();
-        setShowResetConfirm(false);
-    };
-
-    const handleCancelReset = () => {
-        setShowResetConfirm(false);
+        resetModal.close();
     };
 
     return (
@@ -43,54 +45,49 @@ export function GamePage(props) {
 
             <Board cells={board} onCellClick={handleCellClick} />
 
-            <Button variant={BUTTON_STATES.DECLINE} onClick={() => handleResetRequest()}>
+            <Button variant={BUTTON_STATES.DECLINE} onClick={resetModal.open}>
                 Скинути
             </Button>
 
-            <Button variant={BUTTON_STATES.PRIMARY} onClick={() => onBackToMenu()}>
+            <Button variant={BUTTON_STATES.PRIMARY} onClick={onBackToMenu}>
                 Меню
             </Button>
 
-            <Modal open={showResetConfirm}>
-                <h3>Скидання гри</h3>
-                <p>Ви дійсно бажаєте скинути поточний прогрес? Це неможливо скасувати.</p>
+            <ConfirmationModal
+                isOpen={resetModal.isOpen}
+                onClose={resetModal.close}
+                onConfirm={handleConfirmReset}
+                title="Скидання гри"
+                message="Ви дійсно хочете скинути гру?"
+            />
 
-                <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                    <Button onClick={handleConfirmReset} variant={BUTTON_STATES.DECLINE}>
-                        Так
-                    </Button>
-                    <Button onClick={handleCancelReset} variant={BUTTON_STATES.ACCEPT}>
-                        Ні
-                    </Button>
-                </div>
-            </Modal>
-
-            <Modal open={isGameOver && !showResetConfirm}>
-                <h2 style={{ color: isWin ? 'var(--success-color)' : 'var(--danger-color)' }}>
-                    {isWin ? 'Перемога!' : 'Поразка'}
-                </h2>
-
-                <p>
-                    {isWin
-                        ? 'Ви знищили ворожий флот!'
-                        : 'У вас закінчились торпеди.'}
-                </p>
-
-                <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                    <Button onClick={() =>
-                            onEndGame({
+            <Modal
+                isOpen={endGameModal.isOpen}
+                onClose={endGameModal.close}
+                title={isWin ? 'Перемога!' : 'Поразка'}
+                message={isWin ? 'Ви знищили ворожий флот!' : 'У вас закінчились торпеди.'}
+                actions={
+                    [
+                        {
+                            label: "Статистика",
+                            variant: BUTTON_STATES.PRIMARY,
+                            handler: () => onEndGame({
                                 shots: settings.shots - shotsLeft,
                                 shipsLeft: shipsLeft,
                                 status: status
-                            })} variant={BUTTON_STATES.PRIMARY}>
-                        Статистика
-                    </Button>
-
-                    <Button onClick={restartGame} variant={BUTTON_STATES.SECONDARY}>
-                        {isWin ? 'Повторити' : 'Спробувати ще'}
-                    </Button>
-
-                </div>
+                            })
+                        },
+                        {
+                            label: isWin ? 'Повторити' : 'Спробувати ще',
+                            variant: BUTTON_STATES.SECONDARY,
+                            handler: () => {
+                                restartGame();
+                                endGameModal.close();
+                            }
+                        }
+                    ]
+                }
+            >
             </Modal>
         </div>
     );
