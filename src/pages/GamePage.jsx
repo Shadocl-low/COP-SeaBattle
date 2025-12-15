@@ -1,11 +1,13 @@
 import { Board } from '../components/Board/Board';
 import { Button } from "../components/UI/Button/Button";
-import {BUTTON_STATES, GAME_STATUS, PAGE} from "../constants.js";
+import {BUTTON_STATES, DEFAULT_CONFIG, DIFFICULTY_LEVELS, GAME_STATUS, PAGE} from "../constants.js";
 import {useGameLogic} from "../hooks/useGameLogic.jsx";
 import {useEffect} from "react";
 import { Modal } from "../components/Modals/Modal";
 import {useModal} from "../hooks/useModal.jsx";
 import {ConfirmationModal} from "../components/Modals/ConfirmationModal.jsx";
+import {useNavigate, useParams} from "react-router";
+import {useLocalStorage} from "../hooks/useLocalStorage.jsx";
 
 const END_GAME_MODAL_TEXT = {
     [GAME_STATUS.WON]: {
@@ -22,11 +24,19 @@ const END_GAME_MODAL_TEXT = {
     }
 }
 
-export function GamePage(props) {
+export function GamePage() {
+    const { userId } = useParams();
+    const navigate = useNavigate();
+
+    const [appSettings] = useLocalStorage('battleship-settings', {
+        difficulty: DEFAULT_CONFIG.DIFFICULTY
+    });
+
+    const currentDifficultyConfig = DIFFICULTY_LEVELS[appSettings.difficulty] || DIFFICULTY_LEVELS.EASY;
+
     const resetModal = useModal();
     const endGameModal = useModal();
 
-    const { onEndGame, onBackToMenu, settings } = props;
     const {
         board,
         shotsLeft,
@@ -34,7 +44,7 @@ export function GamePage(props) {
         status,
         handleCellClick,
         restartGame
-    } = useGameLogic(settings);
+    } = useGameLogic(currentDifficultyConfig);
 
     useEffect(() => {
         if (status !== GAME_STATUS.PLAYING) {
@@ -50,9 +60,21 @@ export function GamePage(props) {
         resetModal.close();
     };
 
+    const handleResult = () => {
+        navigate('/result', {
+            state: {
+                shots: currentDifficultyConfig.shots - shotsLeft,
+                shipsLeft: shipsLeft,
+                status: status,
+                userId: userId
+            }
+        });
+    };
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', maxWidth: '300px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: '300px' }}>
+                <span>Гравець: {userId}</span>
                 <span>Пострілів: {shotsLeft}</span>
                 <span>Кораблів: {shipsLeft}</span>
             </div>
@@ -63,7 +85,7 @@ export function GamePage(props) {
                 Скинути
             </Button>
 
-            <Button variant={BUTTON_STATES.PRIMARY} onClick={onBackToMenu}>
+            <Button variant={BUTTON_STATES.PRIMARY} onClick={() => navigate('/')}>
                 Меню
             </Button>
 
@@ -84,18 +106,12 @@ export function GamePage(props) {
                         {
                             label: "Статистика",
                             variant: BUTTON_STATES.PRIMARY,
-                            handler: () => onEndGame({
-                                shots: settings.shots - shotsLeft,
-                                shipsLeft: shipsLeft,
-                                status: status
-                            })
+                            handler: () => handleResult()
                         },
                         {
                             label: 'Повторити',
                             variant: BUTTON_STATES.SECONDARY,
-                            handler: () => {
-                                restartGame();
-                            }
+                            handler: () => restartGame()
                         }
                     ]
                 }
