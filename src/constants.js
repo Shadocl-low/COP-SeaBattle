@@ -35,3 +35,18 @@ export const GAME_STATUS = {
     WON: 'won',
     LOST: 'lost'
 };
+
+export const END_GAME_MODAL_TEXT = {
+    [GAME_STATUS.WON]: {
+        title: 'Перемога!',
+        message: 'Ви знищили ворожий флот!'
+    },
+    [GAME_STATUS.LOST]: {
+        title: 'Поразка',
+        message: 'У вас закінчились торпеди.'
+    },
+    [GAME_STATUS.PLAYING]: {
+        title: 'Гра триває',
+        message: 'Не здавайтесь.'
+    }
+}
