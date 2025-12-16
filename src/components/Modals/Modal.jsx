@@ -7,8 +7,6 @@ const modalRootEl = document.querySelector('#modal');
 export function Modal(props) {
     const { isOpen, children, title, message, actions = [] } = props;
 
-    console.log(`[Modal Component] Rendered with isOpen: ${isOpen}, Title: ${title}`);
-
     if (!modalRootEl || !isOpen) return null;
 
     return createPortal(

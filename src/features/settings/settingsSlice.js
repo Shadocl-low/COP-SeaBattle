@@ -32,5 +32,9 @@ const settingsSlice = createSlice({
 
 export const { updateSettings } = settingsSlice.actions;
 export const selectSettings = (state) => state.settings;
+export const selectDiffConf = (state) => {
+    const difficultyId = state.settings.difficulty || DEFAULT_CONFIG.DIFFICULTY;
+    return DIFFICULTY_LEVELS[difficultyId];
+};
 
 export default settingsSlice.reducer;
