@@ -13,16 +13,15 @@ import { Modal } from "../../components/Modals/Modal.jsx";
 import {useModal} from "../../hooks/useModal.jsx";
 import {ConfirmationModal} from "../../components/Modals/ConfirmationModal.jsx";
 import {useNavigate, useParams} from "react-router";
-import {useLocalStorage} from "../../hooks/useLocalStorage.jsx";
 import styles from './GamePage.module.css';
+import {useSelector} from "react-redux";
+import {selectSettings} from "../../features/settings/settingsSlice.js";
 
 export function GamePage() {
     const { userId } = useParams();
     const navigate = useNavigate();
 
-    const [appSettings] = useLocalStorage('battleship-settings', {
-        difficulty: DEFAULT_CONFIG.DIFFICULTY
-    });
+    const appSettings = useSelector(selectSettings);
 
     const currentDifficultyConfig = DIFFICULTY_LEVELS[appSettings.difficulty] || DIFFICULTY_LEVELS.EASY;
 

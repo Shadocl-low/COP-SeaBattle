@@ -50,3 +50,7 @@ export const END_GAME_MODAL_TEXT = {
         message: 'Не здавайтесь.'
     }
 }
+
+export const LOCAL_STORAGE = {
+    SETTINGS: "battleship-settings"
+}
