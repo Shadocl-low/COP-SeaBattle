@@ -16,4 +16,5 @@ const resultsSlice = createSlice({
 
 export const { recordResult } = resultsSlice.actions;
 export const selectLastResult = (state) => state.results.lastGame;
+export const selectListResult = (state) => state.results.history;
 export default resultsSlice.reducer;
