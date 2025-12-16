@@ -1,13 +1,14 @@
 import { Button } from "../../components/UI/Button/Button";
 import styles from './ResultPage.module.css';
-import {BUTTON_STATES, END_GAME_MODAL_TEXT, GAME_STATUS} from "../../constants.js";
-import {useLocation, useNavigate} from "react-router";
+import {BUTTON_STATES, END_GAME_MODAL_TEXT} from "../../constants.js";
+import {useNavigate} from "react-router";
+import {selectLastResult} from "../../features/results/resultsSlice.js";
+import {useSelector} from "react-redux";
 
 export function ResultPage() {
     const navigate = useNavigate();
-    const location = useLocation();
 
-    const { shots = 0, shipsLeft = 0, status, userId } = location.state || {};
+    const { shots = 0, shipsLeft = 0, status, userId } = useSelector(selectLastResult);
 
     const titleClass = `${styles.title} ${styles[status]}`;
 

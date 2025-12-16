@@ -3,7 +3,6 @@ import { Button } from "../../components/UI/Button/Button.jsx";
 import {
     BUTTON_STATES,
     DEFAULT_CONFIG,
-    DIFFICULTY_LEVELS,
     END_GAME_MODAL_TEXT,
     GAME_STATUS
 } from "../../constants.js";
@@ -15,6 +14,7 @@ import {useNavigate, useParams} from "react-router";
 import styles from './GamePage.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {selectDiffConf} from "../../features/settings/settingsSlice.js";
+import {recordResult} from "../../features/results/resultsSlice.js";
 import {initGame, clickCell, selectGameplay} from "../../features/gameplay/gameplaySlice.js";
 import {generateBoard} from "../../utils/boardGenerator.js";
 
@@ -63,14 +63,15 @@ export function GamePage() {
     };
 
     const handleResult = () => {
-        navigate('/result', {
-            state: {
-                shots: difficultyConfig.shots - shotsLeft,
-                shipsLeft: shipsLeft,
-                status: status,
-                userId: userId
-            }
-        });
+        dispatch(recordResult({
+            shots: difficultyConfig.shots - shotsLeft,
+            shipsLeft,
+            status,
+            userId,
+            date: new Date().toISOString()
+        }));
+
+        navigate('/result');
     };
 
     return (
