@@ -3,40 +3,46 @@ import { Button } from "../../components/UI/Button/Button.jsx";
 import {
     BUTTON_STATES,
     DEFAULT_CONFIG,
-    DIFFICULTY_LEVELS,
     END_GAME_MODAL_TEXT,
     GAME_STATUS
 } from "../../constants.js";
-import {useGameLogic} from "../../hooks/useGameLogic.jsx";
-import {useEffect} from "react";
+import {useCallback, useEffect} from "react";
 import { Modal } from "../../components/Modals/Modal.jsx";
 import {useModal} from "../../hooks/useModal.jsx";
 import {ConfirmationModal} from "../../components/Modals/ConfirmationModal.jsx";
 import {useNavigate, useParams} from "react-router";
-import {useLocalStorage} from "../../hooks/useLocalStorage.jsx";
 import styles from './GamePage.module.css';
+import {useDispatch, useSelector} from "react-redux";
+import {selectDiffConf} from "../../features/settings/settingsSlice.js";
+import {recordResult} from "../../features/results/resultsSlice.js";
+import {initGame, clickCell, selectGameplay} from "../../features/gameplay/gameplaySlice.js";
+import {generateBoard} from "../../utils/boardGenerator.js";
 
 export function GamePage() {
     const { userId } = useParams();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const [appSettings] = useLocalStorage('battleship-settings', {
-        difficulty: DEFAULT_CONFIG.DIFFICULTY
-    });
+    const difficultyConfig = useSelector(selectDiffConf);
 
-    const currentDifficultyConfig = DIFFICULTY_LEVELS[appSettings.difficulty] || DIFFICULTY_LEVELS.EASY;
+    const { board, shotsLeft, shipsLeft, status } = useSelector(selectGameplay);
 
     const resetModal = useModal();
     const endGameModal = useModal();
 
-    const {
-        board,
-        shotsLeft,
-        shipsLeft,
-        status,
-        handleCellClick,
-        restartGame
-    } = useGameLogic(currentDifficultyConfig);
+    const startGame = useCallback(() => {
+        const newBoard = generateBoard(difficultyConfig.ships, DEFAULT_CONFIG.BOARD_SIZE);
+
+        dispatch(initGame({
+            board: newBoard,
+            shots: difficultyConfig.shots,
+            ships: difficultyConfig.ships
+        }));
+    }, [difficultyConfig, dispatch]);
+
+    useEffect(() => {
+        startGame();
+    }, [startGame]);
 
     useEffect(() => {
         if (status !== GAME_STATUS.PLAYING) {
@@ -47,20 +53,25 @@ export function GamePage() {
         }
     }, [endGameModal, status]);
 
-    const handleConfirmReset = () => {
-        restartGame();
+    const handleCellClick = (id) => {
+        dispatch(clickCell(id));
+    };
+
+    const handleRestart = () => {
         resetModal.close();
+        startGame();
     };
 
     const handleResult = () => {
-        navigate('/result', {
-            state: {
-                shots: currentDifficultyConfig.shots - shotsLeft,
-                shipsLeft: shipsLeft,
-                status: status,
-                userId: userId
-            }
-        });
+        dispatch(recordResult({
+            shots: difficultyConfig.shots - shotsLeft,
+            shipsLeft,
+            status,
+            userId,
+            date: new Date().toISOString()
+        }));
+
+        navigate('/result');
     };
 
     return (
@@ -94,7 +105,7 @@ export function GamePage() {
             <ConfirmationModal
                 isOpen={resetModal.isOpen}
                 onClose={resetModal.close}
-                onConfirm={handleConfirmReset}
+                onConfirm={handleRestart}
                 title="Скидання гри"
                 message="Ви дійсно хочете скинути гру?"
             />
@@ -113,7 +124,7 @@ export function GamePage() {
                         {
                             label: 'Повторити',
                             variant: BUTTON_STATES.SECONDARY,
-                            handler: () => restartGame()
+                            handler: () => handleRestart()
                         }
                     ]
                 }

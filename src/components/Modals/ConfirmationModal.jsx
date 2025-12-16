@@ -1,5 +1,4 @@
 import { Modal } from './Modal';
-import { Button } from '../UI/Button/Button';
 import { BUTTON_STATES } from '../../constants';
 
 export function ConfirmationModal(props) {

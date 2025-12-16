@@ -1,15 +1,14 @@
 import { Button } from '../../components/UI/Button/Button.jsx';
 import {useNavigate} from "react-router";
-import {useLocalStorage} from "../../hooks/useLocalStorage.jsx";
 import {BUTTON_STATES} from "../../constants.js";
 import styles from './MenuPage.module.css';
+import {useSelector} from "react-redux";
+import {selectSettings} from "../../features/settings/settingsSlice.js";
 
 export function MenuPage() {
     const navigate = useNavigate();
 
-    const [appSettings] = useLocalStorage('battleship-settings', {
-        playerName: 'Player'
-    });
+    const appSettings = useSelector(selectSettings);
 
     const handleStart = () => {
         navigate(`/game/${appSettings.playerName}`);
